@@ -40,6 +40,77 @@ sudo pacman -S --needed --noconfirm \
   man-pages
 
 # -------------------------
+# AUR helper (yay)
+# -------------------------
+if ! command -v yay &>/dev/null; then
+  echo "Installing yay..."
+  git clone https://aur.archlinux.org/yay.git /tmp/yay
+  cd /tmp/yay
+  makepkg -si --noconfirm
+  cd -
+  rm -rf /tmp/yay
+else
+  echo "yay already installed"
+fi
+
+# -------------------------
+# GPU detection
+# -------------------------
+echo "Detecting GPU..."
+
+GPU=$(lspci | grep -E "VGA|3D")
+
+if echo "$GPU" | grep -qi "NVIDIA"; then
+  echo "NVIDIA GPU detected"
+  sudo pacman -S --needed --noconfirm \
+    nvidia \
+    nvidia-utils \
+    nvidia-settings
+
+  # Wayland support
+  sudo pacman -S --needed --noconfirm \
+    egl-wayland
+
+elif echo "$GPU" | grep -qi "AMD"; then
+  echo "AMD GPU detected"
+  sudo pacman -S --needed --noconfirm \
+    mesa \
+    vulkan-radeon \
+    libva-mesa-driver \
+    mesa-vdpau
+
+elif echo "$GPU" | grep -qi "Intel"; then
+  echo "Intel GPU detected"
+  sudo pacman -S --needed --noconfirm \
+    mesa \
+    vulkan-intel \
+    intel-media-driver
+
+else
+  echo "No supported GPU detected"
+fi
+
+# -------------------------
+# Vulkan tools (optional)
+# -------------------------
+sudo pacman -S --needed --noconfirm \
+  vulkan-tools \
+  lib32-vulkan-icd-loader
+
+# -------------------------
+# NVIDIA Hyprland env (safe)
+# -------------------------
+if echo "$GPU" | grep -qi "NVIDIA"; then
+  echo "Configuring NVIDIA Wayland environment..."
+  mkdir -p ~/.config/environment.d
+  cat <<EOF > ~/.config/environment.d/nvidia.conf
+WLR_NO_HARDWARE_CURSORS=1
+LIBVA_DRIVER_NAME=nvidia
+XDG_SESSION_TYPE=wayland
+EOF
+fi
+
+# -------------------------
 # Wayland / Hyprland stack
 # -------------------------
 echo "Installing Wayland + Hyprland..."
