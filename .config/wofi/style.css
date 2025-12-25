@@ -1,0 +1,45 @@
+* {
+    font-family: JetBrainsMono;
+    color: #e5e9f0;
+    background: transparent;
+}
+
+#window {
+    background: rgba(41, 46, 66, 0.55);
+    margin: auto;
+    padding: 10px;
+    border-radius: 20px;
+    border: 5px solid #93d172;
+}
+
+#input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    background: rgba(25, 35, 48, 0.65);
+    border: 2px solid #8072d1;
+}
+
+#outer-box {
+    padding: 20px;
+}
+
+#img {
+    margin-right: 6px;
+}
+
+#entry {
+    padding: 10px;
+    border-radius: 15px;
+    background: rgba(25, 35, 48, 0.15);
+    border: 1px solid transparent;
+}
+
+#entry:selected {
+    background-color: rgba(128, 114, 209, 0.25);
+    border: 1px solid #8072d1;
+}
+
+#text {
+    margin: 2px;
+}

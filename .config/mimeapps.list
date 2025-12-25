@@ -1,0 +1,7 @@
+[Default Applications]
+application/zip=org.kde.dolphin.desktop
+x-scheme-handler/discord=vesktop.desktop
+
+[Added Associations]
+application/zip=org.kde.ark.desktop;org.kde.dolphin.desktop;
+application/x-shellscript=dev.zed.Zed.desktop;
