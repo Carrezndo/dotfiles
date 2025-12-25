@@ -17,6 +17,14 @@ if ! command -v pacman &>/dev/null; then
 fi
 
 # -------------------------
+# Dotfiles checkout (safe)
+# -------------------------
+if [[ -d "$HOME/.dotfiles" ]]; then
+  echo "Running safe dotfiles checkout..."
+  bash "$HOME/.dotfiles/scripts/dotfiles-checkout.sh"
+fi
+
+# -------------------------
 # Sudo keepalive
 # -------------------------
 sudo -v
